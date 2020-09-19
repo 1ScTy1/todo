@@ -4,7 +4,7 @@ const Item = ({ el, updateStatus, deletedTask, updateTitle }) => {
   const [edit, setEdit] = useState(false)
   const [editName, setEditName] = useState(el.title)
   return (
-    <div className="w-3/5 container mx-auto border-4 border-b-0 ">
+    <div className="w-3/5 container mx-auto border-4 ">
       <div key={el.taskId}>
         {!edit ? (
           <div className="w-full h-24 flex items-center justify-center">
@@ -60,20 +60,20 @@ const Item = ({ el, updateStatus, deletedTask, updateTitle }) => {
             </div>
           </div>
         ) : (
-          <div>
-            <button
-              type="button"
-              className="status"
-              onClick={() => {
-                setEdit(false)
-                updateTitle(el.taskId, editName)
-              }}
-            >
-              Save
+            <div>
+              <button
+                type="button"
+                className="status"
+                onClick={() => {
+                  setEdit(false)
+                  updateTitle(el.taskId, editName)
+                }}
+              >
+                Save
             </button>
-            <input type="text" value={editName} onChange={(e) => setEditName(e.target.value)} />
-          </div>
-        )}
+              <input type="text" value={editName} onChange={(e) => setEditName(e.target.value)} />
+            </div>
+          )}
       </div>
     </div>
   )
