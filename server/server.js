@@ -11,7 +11,7 @@ import config from './config'
 import Html from '../client/html'
 
 const Root = () => ''
-const { readFile, writeFile } = require('fs').promises
+const { readFile, writeFile, unlink } = require('fs').promises
 const { readdirSync } = require('fs')
 const shortid = require('shortid')
 
@@ -139,6 +139,12 @@ server.delete('/api/v1/tasks/:category/:id', async (req, res) => {
   const tasks = await read(category)
   const deletedTask = tasks.map((el) => (el.taskId === id ? { ...el, _isDeleted: true } : el))
   await write(category, deletedTask)
+  res.json({ status: 'deleted' })
+})
+
+server.delete('/api/v1/tasks/:category', async (req, res) => {
+  const { category } = req.params
+  await unlink(`${__dirname}/task/${category}.json`)
   res.json({ status: 'deleted' })
 })
 

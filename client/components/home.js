@@ -20,6 +20,9 @@ const Home = () => {
   const deletedTask = (id) => {
     axios.delete(`/api/v1/${category}/${id}`)
   }
+  const deleteFile = (name) => {
+    axios.delete(`/api/v1/tasks/${name}`)
+  }
   const addCategory = (newCategory) => {
     if (newCategory) {
       axios.post(`/api/v1/tasks/${newCategory}`)
@@ -27,9 +30,11 @@ const Home = () => {
     }
   }
   const addTask = (newTask) => {
-    axios
-      .post(`/api/v1/tasks/${category}`, { title: newTask })
-      .then(({ data }) => setTask([...task, data.newTask]))
+    if (newTask !== '') {
+      axios
+        .post(`/api/v1/tasks/${category}`, { title: newTask })
+        .then(({ data }) => setTask([...task, data.newTask]))
+    }
   }
   const timeChange = (time) => {
     axios(`/api/v1/tasks/${category}/${time}`).then(({ data }) => setTask(data))
@@ -45,7 +50,9 @@ const Home = () => {
       <Route
         exact
         path="/"
-        component={() => <Main categories={categories} addCategory={addCategory} />}
+        component={() => (
+          <Main categories={categories} addCategory={addCategory} deleteFile={deleteFile} />
+        )}
       />
       <Route
         exact
